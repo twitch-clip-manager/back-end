@@ -1,10 +1,32 @@
 {
   "name": "back-end",
   "version": "1.0.0",
-  "description": "",
+  "description": "twitch-clip-manager",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js", 
+    "test": "jest -i",
+    "lint": "eslint ."
+  },
+  "jest": {
+    "setupFiles": [
+      "./__test__/lib/jest-setup.js"
+    ],
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coveragePathIgnorePatterns": [
+      "/__test__/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 85,
+        "functions": 85,
+        "lines": 85,
+        "statements": 85
+      }
+    }
   },
   "repository": {
     "type": "git",
@@ -20,7 +42,9 @@
   "dependencies": {
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.0",
     "express": "^4.16.3",
+    "jest": "^22.4.2",
     "superagent": "^3.8.2"
   }
 }
