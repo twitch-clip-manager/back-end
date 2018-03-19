@@ -1,11 +1,10 @@
 language: node_js
 node_js:
   - 'stable'
-<<<<<<< HEAD
+
 services:
   - mongodb
-=======
->>>>>>> origin/development
+
 addons:
   apt:
     sources:
@@ -16,20 +15,11 @@ addons:
 env:
   - CXX=g++-5
 sudo: required
-# safelist
 branches:
   only:
   - master
   - staging
   - development
-
-  # except:
-  #   -
 before_script: npm i
 script:
-  # - npm run lint
-<<<<<<< HEAD
   - npm test
-=======
-  - npm test
->>>>>>> origin/development
