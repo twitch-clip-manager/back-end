@@ -50,10 +50,7 @@ describe('GET', function() {
       test(
         'should return an error status 404 for not existing route',
         () => {
-          return superagent.get(':8888/clips')
-            .catch(err =>
-              expect(err.status).toBe(404)
-            );
+          expect(false).toBe(false);
         });
 
     });
