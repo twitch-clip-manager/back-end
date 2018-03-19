@@ -19,4 +19,13 @@ module.exports = function(router) {
         .then(response => res.send(response.body))
         .catch(err => console.log(err.message))
     })
+  router.route('/clips/channel:id')
+    .get((req, res) => {
+        console.log('req.params',req.params)
+        superagent.get(`https://api.twitch.tv/kraken/clips/top?limit=10&channel=${req.params.id}`)
+        .set('Client-ID', '490xfzohxg3ilxjcq7uifjssyqwo5e')
+        .set('Accept', 'application/vnd.twitchtv.v5+json')
+        .then(response => res.send(response.body))
+        .catch(err => console.log(err.message))
+    })
 };
