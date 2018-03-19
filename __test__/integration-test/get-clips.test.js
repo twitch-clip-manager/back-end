@@ -25,14 +25,35 @@ describe('GET', function() {
           expect(topTen.clips.length).toEqual(10);
         });
 
+      test(
+        'should have embed url in each clip object',
+        () => {
+          expect(topTen.clips[0]).toHaveProperty('embed_url');
+        });
+
+      test(
+        'should return in instance of object',
+        () => {
+          expect(topTen instanceof Object).toBe(true);
+        });
+
+      test(
+        'should have array with key "clips"',
+        () => {
+          expect(topTen.clips instanceof Array).toBe(true);
+        });
+
     });
 
     describe('Invalid input', () => {
  
       test(
-        'dummuy',
+        'should return an error status 404 for not existing route',
         () => {
-          expect(true).toBe(true);
+          return superagent.get(':8888/clips')
+            .catch(err =>
+              expect(err.status).toBe(404)
+            );
         });
 
     });

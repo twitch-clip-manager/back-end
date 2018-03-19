@@ -1,5 +1,6 @@
 'use strict';
 
+const errorHandler = require('./error-handler');
 const cors = require('cors');
 const express = require('express');
 require('dotenv').config();
@@ -10,8 +11,8 @@ const router = express.Router();
 
 app.use(cors());
 app.use('/', router);
-require('../route/route')(router);
-app.use('/{0,}', (req, res) => (new Error('Path error. Route not found. From server.js'), res));
+require('../route/clips')(router);
+app.use('/{0,}', (req, res) => errorHandler(new Error('Path error. Route not found. From server.js'), res));
 
 let server = module.exports = {};
 server.start = () => {
