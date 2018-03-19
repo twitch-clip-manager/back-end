@@ -14,7 +14,7 @@ describe('Server', function(){
       return server.start()
         .catch((err) => {
           expect(err).toBe('server is already running');
-      });
+        });
     });
 
     it('Should throw error on stopping stopped server', () => {
@@ -22,7 +22,7 @@ describe('Server', function(){
       return server.stop()
         .catch((err) => {
           expect(err).toBe('server is not running');
-      });
+        });
     });
 
   });
