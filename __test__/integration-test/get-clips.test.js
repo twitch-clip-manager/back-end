@@ -2,10 +2,11 @@
 
 const server = require('../../src/lib/server');
 const superagent = require('superagent');
+const PORT = process.env.PORT;
 
 describe('GET', function() {
 
-  beforeAll(() => server.start(3000, () => console.log('Listening on 3000')));
+  beforeAll(() => server.start(PORT, () => console.log(`Listening on ${PORT}`)));
   afterAll(() => server.stop());
 
   describe('GET /clips/top', function () {
@@ -13,7 +14,7 @@ describe('GET', function() {
     let topTen;
     // get top ten clips
     beforeAll(() => {
-      return superagent.get(':3000/clips/top')
+      return superagent.get(`:${PORT}/clips/top`)
         .then(res => topTen = res.body);
     });
 
