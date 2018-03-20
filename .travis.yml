@@ -19,7 +19,7 @@ branches:
   - master
   - staging
   - development
-
+  - try-travis
   # except:
   #   -
 before_script: npm i
