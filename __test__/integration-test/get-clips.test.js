@@ -5,7 +5,7 @@ const superagent = require('superagent');
 
 describe('GET', function() {
 
-  beforeAll(() => server.start(8888, () => console.log('Listening on 8888')));
+  beforeAll(() => server.start(3000, () => console.log('Listening on 3000')));
   afterAll(() => server.stop());
 
   describe('GET /clips/top', function () {
@@ -13,7 +13,7 @@ describe('GET', function() {
     let topTen;
     // get top ten clips
     beforeAll(() => {
-      return superagent.get(':8888/clips/top')
+      return superagent.get(':3000/clips/top')
         .then(res => topTen = res.body);
     });
 
