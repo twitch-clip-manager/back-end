@@ -3,8 +3,8 @@
 const server = require('../../src/lib/server');
 const superagent = require('superagent');
 const PORT = process.env.PORT;
-const GAME_KEYWORD = 'overwatch';
-const CHANNEL_KEYWORD = 'admiralbulldog';
+const GAME_KEYWORD = process.env.GAME_KEYWORD;
+const CHANNEL_KEYWORD = process.env.CHANNEL_KEYWORD;
 
 describe('GET', function() {
 
