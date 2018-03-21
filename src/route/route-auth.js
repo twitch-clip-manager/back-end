@@ -4,6 +4,7 @@ const Auth = require('../model/auth');
 const bodyParser = require('body-parser').json();
 const errorHandler = require('../lib/error-handler');
 const basicAuth = require('../middleware/basic-auth-middleware');
+const bearerAuth = require('../middleware/bearer-auth-middleware');
 // const mongoose = require('mongoose')
 
 module.exports = function(router) {
@@ -33,6 +34,17 @@ module.exports = function(router) {
       })
       .then(user => user.generateToken())
       .then(token => res.status(200).json(token))
+      .catch(err => errorHandler(err, res));
+  });
+
+  router.put('/logout', bearerAuth, (req, res) => {
+    Auth.findOne({username: req.user.username})
+      .then(user => {
+        return user
+          ? user.generateCompareHash()
+          : Promise.reject(new Error('Authorization Failed. User not found.'));
+      })
+      .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   });
 };
