@@ -3,15 +3,18 @@
 const errorHandler = require('./error-handler');
 const cors = require('cors');
 const express = require('express');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT;
 const router = express.Router();
+const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(cors());
 app.use('/', router);
 require('../route/clips')(router);
+require('../route/route-auth')(router);
 app.use('/{0,}', (req, res) => errorHandler(new Error('Path error. Route not found. From server.js'), res));
 
 let server = module.exports = {};
@@ -22,6 +25,7 @@ server.start = () => {
     server.http = app.listen(PORT, () => {
       console.log('server up', PORT);
       server.isOn = true;
+      mongoose.connect(MONGODB_URI);
       return resolve(server);
     });
   });
@@ -34,6 +38,7 @@ server.stop = () => {
     server.http.close(() => {
       console.log('server down');
       server.isOn = false;
+      mongoose.disconnect();
       return resolve();
     });
   });
