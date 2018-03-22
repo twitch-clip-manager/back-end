@@ -14,10 +14,9 @@ const MONGODB_URI = process.env.MONGODB_URI;
 app.use(cors());
 app.use('/', router);
 app.use('/api/v1', router);
-require('../route/channel')(router);
 require('../route/clips')(router);
-
-app.all('/{0,}', (req, res) => errorHandler(new Error('Path error. Route not found. From server.js'), res));
+require('../route/auth')(router);
+app.use('/{0,}', (req, res) => errorHandler(new Error('Path error. Route not found. From server.js'), res));
 
 let server = module.exports = {};
 server.start = () => {
@@ -28,6 +27,7 @@ server.start = () => {
       console.log('server up', PORT);
       mongoose.connect(MONGODB_URI);
       server.isOn = true;
+      mongoose.connect(MONGODB_URI);
       return resolve(server);
     });
   });
@@ -41,6 +41,7 @@ server.stop = () => {
       console.log('server down');
       mongoose.disconnect();
       server.isOn = false;
+      mongoose.disconnect();
       return resolve();
     });
   });

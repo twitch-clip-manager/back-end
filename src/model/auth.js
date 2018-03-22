@@ -1,48 +1,48 @@
-// import { compare } from '../../../../../../.cache/typescript/2.6/node_modules/@types/bcrypt';
-
 'use strict';
 
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 const Auth = mongoose.Schema({
-  username: {type: 'string', required: true, unique: true},
-  password: {type: 'string'},
-  compHash: {type: 'string', unique: true},
-},
-{timestamps: true}
-);
+  username: {type: String, required: true, unique: true},
+  password: {type: String, required: true},
+  email: {type: String, required: true},
+  compareHash: {type: String, unique: true},
+}, {timestamps: true});
 
-Auth.methods.createHashedPassword = function(password) {
-  if(!password) return Promise.reject(new Error('Password Required'));
+
+Auth.methods.generatePasswordHash = function(password) {
+  if(!password) return Promise.reject(new Error('Authorization failed. Password required.'));
+
   return bcrypt.hash(password, 10)
     .then(hash => this.password = hash)
-    .catch(error => error);
+    .then(() => this.save())
+    .catch(err => err);
 };
 
-Auth.methods.comparePasswords = function(password) {
+Auth.methods.comparePasswordHash = function(password) {
   return new Promise((resolve, reject) => {
-    bcrypt.compare(password, this.password, (error, valid) => {
-      if(error) return reject(error);
-      if(!valid) return reject(new Error('Invalid password'));
-      return resolve(this);
+    bcrypt.compare(password, this.password, (err, valid) => {
+      if(err) return reject(err);
+      if(!valid) return reject(new Error('Authorization failed. Password invalid.'));
+      resolve(this);
     });
   });
 };
 
-Auth.methods.createCompHash = function() {
-  this.compHash = crypto.randomBytes(32).toString('hex');
+Auth.methods.generateCompareHash = function() {
+  this.compareHash = crypto.randomBytes(32).toString('hex');
   return this.save()
-    .then(() => this.compHash)
-    .catch(error => error);
+    .then(() => Promise.resolve(this.compareHash))
+    .catch(() => this.generateCompareHash()); // This line is not very robust... potential loop
 };
 
-Auth.methods.createToken = function() {
-  return this.createCompHash()
-    .then(compareHash => jwt.sign({jwt:compareHash}, process.env.APP_SECRET))
-    .catch(error => error);
+Auth.methods.generateToken = function() {
+  return this.generateCompareHash()
+    .then(compareHash => jwt.sign({token: compareHash.token}, process.env.APP_SECRET))
+    .catch(err => err);
 };
 
 module.exports = mongoose.model('auth', Auth);
