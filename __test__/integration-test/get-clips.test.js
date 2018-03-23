@@ -71,7 +71,7 @@ describe('GET', function() {
     // get top ten clips for a specific game
     beforeAll(() => {
       return superagent.get(`:${PORT}/clips/game${GAME_KEYWORD}`)
-        .then(res => gameTen = res.body)
+        .then(res => gameTen = res.body);
     });
 
     describe('Valid input', () => {
@@ -115,7 +115,7 @@ describe('GET', function() {
     // get top ten clips for a specific channel
     beforeAll(() => {
       return superagent.get(`:${PORT}/clips/channel${CHANNEL_KEYWORD}`)
-        .then(res => channelTen = res.body)
+        .then(res => channelTen = res.body);
     });
 
     describe('Valid input', () => {

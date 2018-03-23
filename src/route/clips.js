@@ -16,19 +16,19 @@ module.exports = function(router) {
 
   router.route('/clips/game:id')
     .get((req, res) => {
-        superagent.get(`https:\/\/api.twitch.tv/kraken/clips/top?limit=10&game=${req.params.id}`)
+      superagent.get(`https://api.twitch.tv/kraken/clips/top?limit=10&game=${req.params.id}`)
         .set('Client-ID', clientId)
         .set('Accept', 'application/vnd.twitchtv.v5+json')
         .then(response => res.send(response.body))
-        .catch(err => errorHandler(err, res))
-    })
+        .catch(err => errorHandler(err, res));
+    });
 
   router.route('/clips/channel:id')
     .get((req, res) => {
-        superagent.get(`https:\/\/api.twitch.tv/kraken/clips/top?limit=10&channel=${req.params.id}`)
+      superagent.get(`https://api.twitch.tv/kraken/clips/top?limit=10&channel=${req.params.id}`)
         .set('Client-ID', clientId)
         .set('Accept', 'application/vnd.twitchtv.v5+json')
         .then(response => res.send(response.body))
-        .catch(err => errorHandler(err, res))
-    })
+        .catch(err => errorHandler(err, res));
+    });
 };
