@@ -52,6 +52,12 @@ npm i
 ---
 ### Dependencies
 ```JSON
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "eslint": "^4.19.0",
+    "express": "^4.16.3",
+    "jest": "^22.4.2",
+    "superagent": "^3.8.2"
 ```
 ---
 ### Environment variables
